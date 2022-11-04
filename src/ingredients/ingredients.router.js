@@ -13,7 +13,7 @@ require('../middlewares/auth.middleware')(passport)
 router.route('/')
     .get(ingredientServices.getAllIngredients)
     .post(
-        passport.authenticate('jwt', {session: false}),
+        passport.authenticate('jwt', { session: false }),
         adminMiddleware,
         ingredientServices.postIngredient
     )
@@ -21,14 +21,20 @@ router.route('/')
 router.route('/:ingredient_id')
     .get(ingredientServices.getIngredientById)
     .patch(
-        passport.authenticate('jwt', {session: false}),
+        passport.authenticate('jwt', { session: false }),
         adminMiddleware,
         ingredientServices.patchIngredient
     )
     .delete(
-        passport.authenticate('jwt', {session: false}),
+        passport.authenticate('jwt', { session: false }),
         adminMiddleware,
         ingredientServices.deleteIngredient
     )
+
+router.post('/:ingredient_id/add_to_user',
+    passport.authenticate('jwt', { session: false }),
+    ingredientServices.postIngredientToUser
+)
+
 
 module.exports = router
